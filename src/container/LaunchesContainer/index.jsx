@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { useQuery } from "@apollo/react-hooks";
+import { Link } from "react-router-dom";
 import Loading from "../../components/Loading";
 import List from "../../components/List";
 import { LAUNCHES_QUERY } from "../../graphql/Launch";
@@ -16,7 +17,9 @@ const LaunchesContainer = () => {
     <Fragment>
       <ul className="rates">
         {data.launches.launches.map(({ id, mission, rocket }) => (
-          <List key={id} title={mission.name} subtitle={rocket.name} />
+          <Link key={id} to={`launch-details/${id}`}>
+            <List title={mission.name} subtitle={rocket.name} />
+          </Link>
         ))}
       </ul>
       <div>

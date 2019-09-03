@@ -1,52 +1,39 @@
 import { gql } from "apollo-boost";
 
-export const LAUNCH_BY_ID_QUERY = gql`
-  query GetLaunch {
-    launch(id: 56) {
+export const LAUNCH_TITLE_DATA = gql`
+  fragment LaunchTitle on Launch {
+    id
+    site
+    isBooked
+    rocket {
       id
-      mission {
-        name
-      }
+      name
+    }
+    mission {
+      name
+      missionPatch
     }
   }
 `;
 
 export const LAUNCHES_QUERY = gql`
+  ${LAUNCH_TITLE_DATA}
   query launchList($after: String) {
     launches(after: $after) {
       cursor
       hasMore
       launches {
-        id
-        isBooked
-        rocket {
-          id
-          name
-        }
-        mission {
-          name
-          missionPatch
-        }
+        ...LaunchTitle
       }
     }
   }
 `;
 
 export const LAUNCH_DETAILS = gql`
+  ${LAUNCH_TITLE_DATA}
   query LaunchDetails($launchId: ID!) {
     launch(id: $launchId) {
-      id
-      site
-      isBooked
-      rocket {
-        id
-        name
-        type
-      }
-      mission {
-        name
-        missionPatch
-      }
+      ...LaunchTitle
     }
   }
 `;
